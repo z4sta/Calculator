@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "Operations.h"
 
-void functionA(int i);
+char GetOperatorFromInput();
 
 int main()
 {
@@ -17,30 +17,7 @@ int main()
 
 	do {
 
-		bValidInput = true;
-
-		do {
-
-			printf("Operator: ");
-			scanf_s("%c", &cOperator);
-
-			int c;
-			while ((c = getchar()) != '\n' && c != EOF);
-
-			switch (cOperator) {
-			case '/':
-			case '*':
-			case '-':
-			case '+':
-				bValidInput = true;
-				break;
-			default:
-				printf("invalid operator\n");
-				bValidInput = false;
-			};
-
-
-		} while (!bValidInput);
+		cOperator = GetOperatorFromInput();
 
 		bValidInput = true;
 
@@ -110,7 +87,34 @@ int main()
 	//system("cls");
 } 
 
-void functionA(int i)
+char GetOperatorFromInput()
 {
-	return;
+
+	char cOperator;
+	bool bValidInput = true;
+
+	do {
+
+		printf("Operator: ");
+		scanf_s("%c", &cOperator);
+
+		int c;
+		while ((c = getchar()) != '\n' && c != EOF);
+
+		switch (cOperator) {
+		case '/':
+		case '*':
+		case '-':
+		case '+':
+			bValidInput = true;
+			break;
+		default:
+			printf("invalid operator\n\n");
+			bValidInput = false;
+		};
+
+
+	} while (!bValidInput);
+
+	return cOperator;
 }

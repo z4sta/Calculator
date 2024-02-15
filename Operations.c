@@ -16,7 +16,8 @@ float Divide(float BaseNumber, float Number) {
 float Multiply(float BaseNumber, float Number) {
 	return BaseNumber * Number;
 }
-;
+
+
 
 bool IsNumberEven(float BaseNumber) {
 
