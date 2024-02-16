@@ -4,26 +4,30 @@
 #include "Operations.h"
 
 char GetOperatorFromInput();
-void GetFirstInput(bool* bValidInput, float* dFirstInput);
-void GetSecondInput(bool* bValidInput, float* dFirstInput);
+void GetInput(float* dInput, char* strMsg);
+
 
 
 int main()
 {
 
-	bool bValidInput = true;
+	// Define varriables
 	bool bContinue = true;
 
 	char cOperator;
 	float dFirstInput = 0;
 	float dSecondaryinput = 0;
+	float* pTest = NULL; // Example of bad pointer
 
 	do {
 
 		// Gather all inputs
 		cOperator = GetOperatorFromInput();
-		GetFirstInput(&bValidInput, &dFirstInput);
-		GetSecondInput(&bValidInput, & dSecondaryinput);
+		GetInput(&dFirstInput, "First Number");
+		GetInput(&dSecondaryinput, "Second Number");
+
+		GetInput(pTest, "Third Number"); // Example of bad pointer
+
 	
 		// Do operations based on operator given
 		switch (cOperator) {
@@ -85,36 +89,19 @@ char GetOperatorFromInput()
 
 
 
-void GetFirstInput(bool* bValidInput, float* Input) {
-	bValidInput = true;
+void GetInput(float* dInput, char* strMsg) {
+	if(!dInput || !strMsg){
+		return; //Errorhandling
+	}
+
+
+	bool bValidInput = true;
 
 	do {
 
-		printf("First Number: ");
+		printf("%s : ", strMsg);
 
-		if (scanf_s("%f",&*Input) != 1) {
-			bValidInput = false;
-		}
-		else
-		{
-			bValidInput = true;
-		}
-
-		int c;
-		while ((c = getchar()) != '\n' && c != EOF);
-
-
-	} while (!bValidInput);
-}
-
-void GetSecondInput(bool* bValidInput, float* Input) {
-	bValidInput = true;
-
-	do {
-
-		printf("Second Number: ");
-
-		if (scanf_s("%f", &*Input) != 1) {
+		if (scanf_s("%f", dInput) != 1) {
 			bValidInput = false;
 		}
 		else
