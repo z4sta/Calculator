@@ -4,6 +4,9 @@
 #include "Operations.h"
 
 char GetOperatorFromInput();
+void GetFirstInput(bool* bValidInput, float* dFirstInput);
+void GetSecondInput(bool* bValidInput, float* dFirstInput);
+
 
 int main()
 {
@@ -17,48 +20,12 @@ int main()
 
 	do {
 
+		// Gather all inputs
 		cOperator = GetOperatorFromInput();
-
-		bValidInput = true;
-
-		do {
-
-			printf("First Number: ");
-
-			if (scanf_s("%f", &dFirstInput) != 1) {
-				bValidInput = false;
-			}
-			else
-			{
-				bValidInput = true;
-			}
-
-			int c;
-			while ((c = getchar()) != '\n' && c != EOF);
-
-
-		} while (!bValidInput);
-
-		bValidInput = true;
-
-		do {
-
-			printf("Second Number: ");
-
-			if (scanf_s("%f", &dSecondaryinput) != 1) {
-				bValidInput = false;
-			}
-			else
-			{
-				bValidInput = true;
-			}
-
-			int c;
-			while ((c = getchar()) != '\n' && c != EOF);
-
-
-		} while (!bValidInput);
+		GetFirstInput(&bValidInput, &dFirstInput);
+		GetSecondInput(&bValidInput, & dSecondaryinput);
 	
+		// Do operations based on operator given
 		switch (cOperator) {
 		case '/':
 			printf("%f %c %f = %f\n", dFirstInput, cOperator, dSecondaryinput, Divide(dFirstInput, dSecondaryinput));
@@ -82,9 +49,6 @@ int main()
 
 	} while (bContinue);
 
-
-
-	//system("cls");
 } 
 
 char GetOperatorFromInput()
@@ -117,4 +81,50 @@ char GetOperatorFromInput()
 	} while (!bValidInput);
 
 	return cOperator;
+}
+
+
+
+void GetFirstInput(bool* bValidInput, float* Input) {
+	bValidInput = true;
+
+	do {
+
+		printf("First Number: ");
+
+		if (scanf_s("%f",&*Input) != 1) {
+			bValidInput = false;
+		}
+		else
+		{
+			bValidInput = true;
+		}
+
+		int c;
+		while ((c = getchar()) != '\n' && c != EOF);
+
+
+	} while (!bValidInput);
+}
+
+void GetSecondInput(bool* bValidInput, float* Input) {
+	bValidInput = true;
+
+	do {
+
+		printf("Second Number: ");
+
+		if (scanf_s("%f", &*Input) != 1) {
+			bValidInput = false;
+		}
+		else
+		{
+			bValidInput = true;
+		}
+
+		int c;
+		while ((c = getchar()) != '\n' && c != EOF);
+
+
+	} while (!bValidInput);
 }
