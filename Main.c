@@ -5,14 +5,22 @@
 
 #define VERSION_NUMBER 1.5
 
+// Validation
 bool IsValidOperator(char* cOperator);
-void CalculateResult(float* dFirstInput, char* cOperator, float* dSecondInput);
 char GetOperatorFromInput();
 void GetInput(float* dInput, char* strMsg);
 
+// Calculations
+void CalculateResult(float* dFirstInput, char* cOperator, float* dSecondInput);
+
+// Misc
+void PrintHeader();
+void ClearConsole();
 
 int main()
 {
+
+	PrintHeader();
 
 	// Define variables
 	float fFirstNumber = 0;
@@ -21,14 +29,11 @@ int main()
 	bool bContinue = true;
 	bool bFirst = true;
 
-	//TODO: add header print (ASCII ART + Programm name + version + F1: help)
 	//TODO: presing f1 prints help
 	//TODO: stop/exit for stop (close)
 	//TODO: clear for clearing console / restarting (write header again)
 
-	printf("Version: %.1f", VERSION_NUMBER);
-	printf("\n");
-
+	// Main Loop
 	do {
 		
 		if (!bFirst) {
@@ -104,6 +109,27 @@ int main()
 
 } 
 
+void ClearConsole() {
+	system("cls");
+	PrintHeader();
+}
+
+void PrintHeader() {
+
+	printf("\x1b[33m ______     ______     __         ______     __  __     __         ______     ______   ______     ______    \n");
+	printf("/\\  ___\\   /\\  __ \\   /\\ \\       /\\  ___\\   /\\ \\/\\ \\   /\\ \\       /\\  __ \\   /\\__  _\\ /\\  __ \\   /\\  == \\   \n");
+	printf("\\ \\ \\____  \\ \\  __ \\  \\ \\ \\____  \\ \\ \\____  \\ \\ \\_\\ \\  \\ \\ \\____  \\ \\  __ \\  \\/_/\\ \\/ \\ \\ \\/\\ \\  \\ \\  __<   \n");
+	printf(" \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_____\\  \\ \\_____\\  \\ \\_____\\  \\ \\_____\\  \\ \\_\\ \\_\\    \\ \\_\\  \\ \\_____\\  \\ \\_\\ \\_\\ \n");
+	printf("  \\/_____/   \\/_/\\/_/   \\/_____/   \\/_____/   \\/_____/   \\/_____/   \\/_/\\/_/     \\/_/   \\/_____/   \\/_/ /_/ \n\n");
+
+	printf("VERSION: %.1f\n", VERSION_NUMBER);
+	printf("PRESS F1 FOR HELP");
+	printf("\n\n");
+
+	printf("\x1b[0m"); // Reset color to default
+
+}
+
 bool IsValidOperator(char* cOperator) {
 	switch (*cOperator) {
 	case '/':
@@ -124,18 +150,18 @@ void CalculateResult(float* dFirstInput, char* cOperator, float* dSecondInput) {
 	}
 	
 	switch (*cOperator) {
-	case '/':
-		printf("%f %c %f = %f\n", *dFirstInput, *cOperator, *dSecondInput, Divide(*dFirstInput, *dSecondInput));
-		break;
-	case '*':
-		printf("%f %c %f = %f\n", *dFirstInput, *cOperator, *dSecondInput, Multiply(*dFirstInput, *dSecondInput));
-		break;
-	case '-':
-		printf("%f %c %f = %f\n", *dFirstInput, *cOperator, *dSecondInput, Subtract(*dFirstInput, *dSecondInput));
-		break;
-	case '+':
+    case '/':
+        printf("%f %c %f = \x1b[32m%f\x1b[0m\n", *dFirstInput, *cOperator, *dSecondInput, Divide(*dFirstInput, *dSecondInput));
+        break;
+    case '*':
+        printf("%f %c %f = \x1b[32m%f\x1b[0m\n", *dFirstInput, *cOperator, *dSecondInput, Multiply(*dFirstInput, *dSecondInput));
+        break;
+    case '-':
+        printf("%f %c %f = \x1b[32m%f\x1b[0m\n", *dFirstInput, *cOperator, *dSecondInput, Subtract(*dFirstInput, *dSecondInput));
+        break;
 		// %.2f == 2 comma only
-		printf("%f %c %f = %f\n", *dFirstInput, *cOperator, *dSecondInput, Add(*dFirstInput, *dSecondInput));
+	case '+':
+		printf("%f %c %f = \x1b[32m%f\x1b[0m\n", *dFirstInput, *cOperator, *dSecondInput, Add(*dFirstInput, *dSecondInput));
 		break;
 	default:
 		printf("invalid operator\n");
