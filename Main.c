@@ -1,14 +1,20 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <conio.h>
 #include "Operations.h"
 
 #define VERSION_NUMBER 1.5
+#define HELP_KEY "help"
+#define CLEAR_KEY "clear"
+#define STOP_KEY "stop"
+#define EXIT_KEY "exit"
 
 // Validation
 bool IsValidOperator(char* cOperator);
 char GetOperatorFromInput();
 void GetInput(float* dInput, char* strMsg);
+bool DetermineAction();
 
 // Calculations
 void CalculateResult(float* dFirstInput, char* cOperator, float* dSecondInput);
@@ -16,6 +22,11 @@ void CalculateResult(float* dFirstInput, char* cOperator, float* dSecondInput);
 // Misc
 void PrintHeader();
 void ClearConsole();
+void PrintHelp();
+
+// Main
+
+//TODO: history (ans + stuff)
 
 int main()
 {
@@ -29,9 +40,7 @@ int main()
 	bool bContinue = true;
 	bool bFirst = true;
 
-	//TODO: presing f1 prints help
-	//TODO: stop/exit for stop (close)
-	//TODO: clear for clearing console / restarting (write header again)
+	
 
 	// Main Loop
 	do {
@@ -41,7 +50,7 @@ int main()
 		}
 		bFirst = false;
 
-		printf("Equation: ");
+		printf("cmd: ");
 		if (scanf_s("%f %1s %f", &fFirstNumber, cOperator, sizeof(cOperator), &fSecondNumber) == 3) {
 
 			if (!IsValidOperator(cOperator)) {
@@ -53,7 +62,7 @@ int main()
 
 		}
 		else {
-			printf("Error reading input\n");
+			if (DetermineAction() == 0) {return 0;}
 		}
 
 		int c;
@@ -61,53 +70,59 @@ int main()
 
 	} while (bContinue);
 
-
-
 	return 0;
 
+}
+bool DetermineAction()
+{
+	char temporary[100];
+	scanf_s("%s", temporary, sizeof(temporary));
 
-	/*
-	bool bContinue = true;
-	char cOperator;
-	float dFirstInput = 0;
-	float dSecondaryinput = 0;
-	*/
-	/*
-	do {
+	if (strcmp(temporary, CLEAR_KEY) == 0) {
+		ClearConsole();
+	}
+	else if (strcmp(temporary, STOP_KEY) == 0) {
+		return 0;
+	}
+	else if (strcmp(temporary, EXIT_KEY) == 0) {
+		return 0;
+	}
+	else if (strcmp(temporary, HELP_KEY) == 0) {
+		PrintHelp();
+	}
+	else {
+		printf("Invalid input\n");
+	}
 
-		// Gather all inputs
-		cOperator = GetOperatorFromInput();
-		GetInput(&dFirstInput, "First Number");
-		GetInput(&dSecondaryinput, "Second Number");
+}
 
-		// Do operations based on operator given
-		switch (cOperator) {
-		case '/':
-			printf("%f %c %f = %f\n", dFirstInput, cOperator, dSecondaryinput, Divide(dFirstInput, dSecondaryinput));
-			break;
-		case '*':
-			printf("%f %c %f = %f\n", dFirstInput, cOperator, dSecondaryinput, Multiply(dFirstInput, dSecondaryinput));
-			break;
-		case '-':
-			printf("%f %c %f = %f\n", dFirstInput, cOperator, dSecondaryinput, Subtract(dFirstInput, dSecondaryinput));
-			break;
-		case '+':
-			// %.2f == 2 comma only
-			printf("%f %c %f = %f\n", dFirstInput, cOperator, dSecondaryinput, Add(dFirstInput, dSecondaryinput));
-			break;
-		default:
-			printf("invalid operator\n");
-			break;
-		}
 
-		printf("\n");
+void PrintHelp() {
+	ClearConsole();
 
-	} while (bContinue);
-	*/
+	printf("\x1b[95m"); // Set text color to pink
+	printf("\x1b[91m\x1b[1m"); // Set text color to red and make it bold
+	printf("-- DOCUMENTATION --\n\n");
+	printf("\x1b[95m"); // Set text color back to pink
+	printf("\x1b[34m\x1b[1m"); // Set text color to blue and make it bold
+	printf("# USAGE\n\n");
+	printf("\x1b[95m"); // Set text color back to pink
+	printf("- clear . . . . . . . : clears console\n");
+	printf("- exit  . . . . . . . : exits the application\n");
+	printf("- stop  . . . . . . . : exits the application\n");
+	printf("- help  . . . . . . . : prints out the documentation\n\n");
+	printf("e.g: (number) (operator) (number) --> 20 + 20\n\n");
+	printf("operators: + , - , * , /\n\n");
+	printf("\x1b[34m\x1b[1m"); // Set text color back to blue and make it bold
+	printf("# CREDITS\n\n");
+	printf("\x1b[95m"); // Set text color back to pink
+	printf("written in c\n");
+	printf("by @z4sta on github\n\n");
+	printf("\x1b[91m\x1b[1m"); // Set text color to red and make it bold
+	printf("-- END OF DOCUMENTATION --\n");
+	printf("\x1b[0m"); // Reset text color to default
 
-	
-
-} 
+}
 
 void ClearConsole() {
 	system("cls");
@@ -123,7 +138,7 @@ void PrintHeader() {
 	printf("  \\/_____/   \\/_/\\/_/   \\/_____/   \\/_____/   \\/_____/   \\/_____/   \\/_/\\/_/     \\/_/   \\/_____/   \\/_/ /_/ \n\n");
 
 	printf("VERSION: %.1f\n", VERSION_NUMBER);
-	printf("PRESS F1 FOR HELP");
+	printf("TYPE IN '%s' for documentation", HELP_KEY);
 	printf("\n\n");
 
 	printf("\x1b[0m"); // Reset color to default
