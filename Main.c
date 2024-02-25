@@ -5,15 +5,17 @@
 #include "Operations.h"
 
 #define VERSION_NUMBER 1.5
-#define HELP_KEY "help"
-#define CLEAR_KEY "clear"
-#define STOP_KEY "stop"
-#define EXIT_KEY "exit"
+#define HELP_STR "help"
+#define CLEAR_STR "clear"
+#define STOP_STR "stop"
+#define EXIT_STR "exit"
 
 // Validation
 bool IsValidOperator(char* cOperator);
+/*
 char GetOperatorFromInput();
 void GetInput(float* dInput, char* strMsg);
+*/
 bool DetermineAction();
 
 // Calculations
@@ -26,7 +28,7 @@ void PrintHelp();
 
 // Main
 
-//TODO: history (ans + stuff)
+// TODO: history (ans + stuff)
 
 int main()
 {
@@ -36,11 +38,10 @@ int main()
 	// Define variables
 	float fFirstNumber = 0;
 	float fSecondNumber = 0;
+	float answer = 0;
 	char cOperator[2]; // Considering operator will be a single character
 	bool bContinue = true;
 	bool bFirst = true;
-
-	
 
 	// Main Loop
 	do {
@@ -73,29 +74,29 @@ int main()
 	return 0;
 
 }
+
 bool DetermineAction()
 {
 	char temporary[100];
 	scanf_s("%s", temporary, sizeof(temporary));
 
-	if (strcmp(temporary, CLEAR_KEY) == 0) {
+	if (strcmp(temporary, CLEAR_STR) == 0) {
 		ClearConsole();
 	}
-	else if (strcmp(temporary, STOP_KEY) == 0) {
-		return 0;
+	else if (strcmp(temporary, STOP_STR) == 0) {
+		return false;
 	}
-	else if (strcmp(temporary, EXIT_KEY) == 0) {
-		return 0;
+	else if (strcmp(temporary, EXIT_STR) == 0) {
+		return false;
 	}
-	else if (strcmp(temporary, HELP_KEY) == 0) {
+	else if (strcmp(temporary, HELP_STR) == 0) {
 		PrintHelp();
 	}
 	else {
 		printf("Invalid input\n");
 	}
-
+	return true;
 }
-
 
 void PrintHelp() {
 	ClearConsole();
@@ -138,7 +139,7 @@ void PrintHeader() {
 	printf("  \\/_____/   \\/_/\\/_/   \\/_____/   \\/_____/   \\/_____/   \\/_____/   \\/_/\\/_/     \\/_/   \\/_____/   \\/_/ /_/ \n\n");
 
 	printf("VERSION: %.1f\n", VERSION_NUMBER);
-	printf("TYPE IN '%s' for documentation", HELP_KEY);
+	printf("TYPE IN '%s' for documentation", HELP_STR);
 	printf("\n\n");
 
 	printf("\x1b[0m"); // Reset color to default
@@ -165,25 +166,27 @@ void CalculateResult(float* dFirstInput, char* cOperator, float* dSecondInput) {
 	}
 	
 	switch (*cOperator) {
-    case '/':
-        printf("%f %c %f = \x1b[32m%f\x1b[0m\n", *dFirstInput, *cOperator, *dSecondInput, Divide(*dFirstInput, *dSecondInput));
-        break;
-    case '*':
-        printf("%f %c %f = \x1b[32m%f\x1b[0m\n", *dFirstInput, *cOperator, *dSecondInput, Multiply(*dFirstInput, *dSecondInput));
-        break;
-    case '-':
-        printf("%f %c %f = \x1b[32m%f\x1b[0m\n", *dFirstInput, *cOperator, *dSecondInput, Subtract(*dFirstInput, *dSecondInput));
-        break;
-		// %.2f == 2 comma only
+	case '/':
+		printf("%f \x1b[31m%c\x1b[0m %f = \x1b[32m%f\x1b[0m\n", *dFirstInput, *cOperator, *dSecondInput, Divide(*dFirstInput, *dSecondInput));
+		break;
+	case '*':
+		printf("%f \x1b[31m%c\x1b[0m %f = \x1b[32m%f\x1b[0m\n", *dFirstInput, *cOperator, *dSecondInput, Multiply(*dFirstInput, *dSecondInput));
+		break;
+	case '-':
+		printf("%f \x1b[31m%c\x1b[0m %f = \x1b[32m%f\x1b[0m\n", *dFirstInput, *cOperator, *dSecondInput, Subtract(*dFirstInput, *dSecondInput));
+		break;
 	case '+':
-		printf("%f %c %f = \x1b[32m%f\x1b[0m\n", *dFirstInput, *cOperator, *dSecondInput, Add(*dFirstInput, *dSecondInput));
+		printf("%f \x1b[31m%c\x1b[0m %f = \x1b[32m%f\x1b[0m\n", *dFirstInput, *cOperator, *dSecondInput, Add(*dFirstInput, *dSecondInput));
 		break;
 	default:
 		printf("invalid operator\n");
-		break; 
+		break;
 	}
 
+
 }
+
+/*
 
 char GetOperatorFromInput()
 {
@@ -232,3 +235,4 @@ void GetInput(float* dInput, char* strMsg) {
 
 	} while (!bValidInput);
 }
+*/
